@@ -18,5 +18,6 @@ describe("angularjs homepage todo list", function() {
       .click();
     var completedAmount = element.all(by.css(".done-true"));
     expect(completedAmount.count()).toEqual(2);
+    browser.sleep(5000);
   });
 });
