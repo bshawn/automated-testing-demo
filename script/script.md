@@ -13,6 +13,8 @@
 
 Basic 'Hello World' demo (straight off of the Protractor site)
 
+- Open a console
+
 ```bash
 npm install -g protractor
 webdriver-manager update
@@ -68,3 +70,5 @@ code .
     specs: ["todo-spec.js"]
   };
   ```
+
+  - Add `browser.sleep(5000)` to `todo-spec.js`
