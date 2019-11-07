@@ -4,8 +4,6 @@
 
 - [Demo 1](#Demo-1)
 - [Demo 2](#Demo-2)
-- [Demo 3](#Demo-3)
-- [Demo 4](#Demo-4)
 
 ## Script
 
@@ -118,5 +116,149 @@ code .
   browser.ignoreSynchronization = true;
   ```
 
-- Create a new `conf.js` and `spec.js`
--
+- Create a new `conf.js` and `conduit-spec.js`
+
+  ```js
+  // conf.js
+  exports.config = {
+    seleniumAddress: "http://localhost:4444/wd/hub",
+    specs: ["conduit-spec.js"],
+    capabilities: {
+      browserName: "firefox"
+    }
+  };
+  ```
+
+  ```js
+  // conduit-spec.js
+  describe("conduit login", () => {
+    const EC = protractor.ExpectedConditions;
+    const timeout = 10000;
+    const email = "bdstest@hotmail.com";
+    const userName = "bdstest2";
+    const password = "123Test!";
+
+    beforeAll(() => {
+      browser.ignoreSynchronization = true;
+    });
+
+    beforeEach(() => {
+      return browser.get("https://react-redux.realworld.io/");
+    });
+
+    it("should log the user into the app", () => {
+      const loginLink = element(by.css(".nav-link[href='#login']"));
+      const loginIsClickable = EC.elementToBeClickable(loginLink, timeout);
+      const emailInput = element(by.css("input[type='email']"));
+      const emailIsClickable = EC.elementToBeClickable(emailInput, timeout);
+      const passwordInput = element(by.css("input[type='password']"));
+      const passwordIsClickable = EC.elementToBeClickable(
+        passwordInput,
+        timeout
+      );
+      const signInButton = element(by.css("button[type='submit']"));
+      const signInIsClickable = EC.elementToBeClickable(signInButton, timeout);
+      const userNameHeader = element(by.linkText(userName));
+      const headerIsClickable = EC.elementToBeClickable(
+        userNameHeader,
+        timeout
+      );
+
+      return Promise.resolve(() => {
+        return browser.wait(loginIsClickable);
+      })
+        .then(() => {
+          return loginLink.click();
+        })
+        .then(() => {
+          return browser.wait(emailIsClickable);
+        })
+        .then(() => {
+          return emailInput.click();
+        })
+        .then(() => {
+          return emailInput.sendKeys(email);
+        })
+        .then(() => {
+          return browser.wait(passwordIsClickable);
+        })
+        .then(() => {
+          return passwordInput.click();
+        })
+        .then(() => {
+          return passwordInput.sendKeys(password);
+        })
+        .then(() => {
+          return browser.wait(signInIsClickable);
+        })
+        .then(() => {
+          return signInButton.click();
+        })
+        .then(() => {
+          return browser.wait(headerIsClickable);
+        })
+        .then(() => {
+          var actual = headerIsClickable();
+          return expect(actual).toBe(true);
+        });
+    });
+  });
+  ```
+
+- rewrite `conduit-spec.js` to use async/await
+
+  ```js
+  // conduit-spec.js
+  describe("conduit login", () => {
+    const EC = protractor.ExpectedConditions;
+    const timeout = 10000;
+    const email = "bdstest@hotmail.com";
+    const userName = "bdstest2";
+    const password = "123Test!";
+
+    beforeAll(() => {
+      browser.ignoreSynchronization = true;
+    });
+
+    beforeEach(async () => {
+      await browser.get("https://react-redux.realworld.io/");
+    });
+
+    it("should log the user into the app", async () => {
+      const loginLink = element(by.css(".nav-link[href='#login']"));
+      const loginIsClickable = EC.elementToBeClickable(loginLink, timeout);
+      await browser.wait(loginIsClickable);
+      await loginLink.click();
+
+      const emailInput = element(by.css("input[type='email']"));
+      const emailIsClickable = EC.elementToBeClickable(emailInput, timeout);
+      await browser.wait(emailIsClickable);
+      await emailInput.click();
+      await emailInput.sendKeys(email);
+
+      const passwordInput = element(by.css("input[type='password']"));
+      const passwordIsClickable = EC.elementToBeClickable(
+        passwordInput,
+        timeout
+      );
+      await browser.wait(passwordIsClickable);
+      await passwordInput.click();
+      await passwordInput.sendKeys(password);
+
+      const signInButton = element(by.css("button[type='submit']"));
+      const signInIsClickable = EC.elementToBeClickable(signInButton, timeout);
+      await browser.wait(signInIsClickable);
+      await signInButton.click();
+
+      const userNameHeader = element(by.linkText(userName));
+      const headerIsClickable = EC.elementToBeClickable(
+        userNameHeader,
+        timeout
+      );
+      await browser.wait(headerIsClickable);
+
+      var actual = headerIsClickable();
+      expect(actual).toBe(true);
+    });
+  });
+  ```
