@@ -19,7 +19,8 @@ describe("conduit login", () => {
     await headerMenu.clickLogIn();
     await loginPage.waitUntilReady();
     await loginPage.logIn(email, password);
-    var actual = await headerMenu.userNameIsClickable(userName);
+    await headerMenu.waitUntilUserNameIsClickable(userName);
+    var actual = await headerMenu.isUserNameClickable(userName);
     expect(actual).toBe(true);
   });
 });

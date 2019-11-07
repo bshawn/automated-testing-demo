@@ -1,8 +1,8 @@
 const helpers = require("../helpers");
 
 const elements = {
-  loginLink: $(by.css(".nav-link[href='#login']")),
-  userNameLink: userName => $(by.linkText(userName))
+  loginLink: element(by.css(".nav-link[href='#login']")),
+  userNameLink: userName => element(by.linkText(userName))
 };
 
 async function waitUntilReady() {
@@ -13,12 +13,22 @@ async function clickLogIn() {
   await elements.loginLink.click();
 }
 
-async function userNameIsClickable(userName) {
-  return helpers.isClickable(userNameLink(userName));
+function waitUntilUserNameIsClickable(userName) {
+  return helpers.waitUntilClickable(elements.userNameLink(userName));
+}
+
+async function isUserNameClickable(userName) {
+  try {
+    await helpers.isClickable(elements.userNameLink(userName));
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 module.exports = {
   waitUntilReady,
   clickLogIn,
-  userNameIsClickable
+  waitUntilUserNameIsClickable,
+  isUserNameClickable
 };

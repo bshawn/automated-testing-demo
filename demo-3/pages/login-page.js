@@ -1,9 +1,9 @@
 const helpers = require("../helpers");
 
 const elements = {
-  emailInput: $(by.css("input[type='email']")),
-  passwordInput: $(by.css("input[type='password']")),
-  signInButton: $(by.css("button[type='submit']"))
+  emailInput: element(by.css("input[type='email']")),
+  passwordInput: element(by.css("input[type='password']")),
+  signInButton: element(by.css("button[type='submit']"))
 };
 
 async function waitUntilReady() {
