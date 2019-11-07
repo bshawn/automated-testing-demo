@@ -25,7 +25,7 @@ webdriver-manager start
 
 [http://localhost:4444/wd/hub](http://localhost:4444/wd/hub)
 
-### Code Steps
+#### Code Steps
 
 ```bash
 mkdir demo-1
@@ -71,4 +71,52 @@ code .
   };
   ```
 
-  - Add `browser.sleep(5000)` to `todo-spec.js`
+- Add `browser.sleep(5000)` to `todo-spec.js`
+- Update conf.js to target Firefox
+
+  ```js
+  // conf.js
+  exports.config = {
+    seleniumAddress: "http://localhost:4444/wd/hub",
+    specs: ["todo-spec.js"],
+    capabilities: {
+      browserName: "firefox"
+    }
+  };
+  ```
+
+- Update conf.js to target both Chrome AND Firefox
+
+  ```js
+  // conf.js
+  exports.config = {
+    seleniumAddress: "http://localhost:4444/wd/hub",
+    specs: ["todo-spec.js"],
+    multiCapabilities: [
+      {
+        browserName: "firefox"
+      },
+      {
+        browserName: "chrome"
+      }
+    ]
+  };
+  ```
+
+### Demo 2
+
+```bash
+cd ..
+mkdir demo-2
+cd ./demo-2
+code .
+```
+
+- Ignore synchronization (non-Angular apps)
+
+  ```js
+  browser.ignoreSynchronization = true;
+  ```
+
+- Create a new `conf.js` and `spec.js`
+-
