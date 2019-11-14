@@ -2,6 +2,8 @@
 
 Automated UI testing for Developers
 
+[Slide Deck](./deck/Look%20Ma%20No%20Hands%20-%20Automated%20Testing.pdf)
+
 ## Intro
 
 The code for this talk is split into multiple folders, based on which demo is being presented. Scripts are in `./scripts`.
